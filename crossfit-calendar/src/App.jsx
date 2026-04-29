@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Calendar from './components/Calendar'
 import WorkoutModal from './components/WorkoutModal'
+import { supabase } from './supabase'
 import './App.css'
 
 function App() {
@@ -12,10 +13,11 @@ function App() {
   const [isIOS, setIsIOS] = useState(false)
 
   useEffect(() => {
-    fetch('/api/workouts')
-      .then(r => r.json())
-      .then(setWorkouts)
-      .catch(() => {})
+    supabase.from('workouts').select('date, data').then(({ data }) => {
+      const result = {}
+      data?.forEach(row => { result[row.date] = row.data })
+      setWorkouts(result)
+    })
   }, [])
 
   useEffect(() => {
@@ -46,16 +48,12 @@ function App() {
   }
 
   const handleSave = async (date, data) => {
-    await fetch(`/api/workouts/${date}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
+    await supabase.from('workouts').upsert({ date, data })
     setWorkouts(prev => ({ ...prev, [date]: data }))
   }
 
   const handleDelete = async (date) => {
-    await fetch(`/api/workouts/${date}`, { method: 'DELETE' })
+    await supabase.from('workouts').delete().eq('date', date)
     setWorkouts(prev => {
       const next = { ...prev }
       delete next[date]
