@@ -3,23 +3,20 @@ import Calendar from './components/Calendar'
 import WorkoutModal from './components/WorkoutModal'
 import './App.css'
 
-const STORAGE_KEY = 'crossfit-workouts'
-
-function loadWorkouts() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
-  } catch {
-    return {}
-  }
-}
-
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(null)
-  const [workouts, setWorkouts] = useState(loadWorkouts)
+  const [workouts, setWorkouts] = useState({})
   const [installPrompt, setInstallPrompt] = useState(null)
   const [showInstall, setShowInstall] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/workouts')
+      .then(r => r.json())
+      .then(setWorkouts)
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     const ios = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase())
@@ -48,19 +45,20 @@ function App() {
     }
   }
 
-  const handleSave = (date, data) => {
-    setWorkouts(prev => {
-      const next = { ...prev, [date]: data }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-      return next
+  const handleSave = async (date, data) => {
+    await fetch(`/api/workouts/${date}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     })
+    setWorkouts(prev => ({ ...prev, [date]: data }))
   }
 
-  const handleDelete = (date) => {
+  const handleDelete = async (date) => {
+    await fetch(`/api/workouts/${date}`, { method: 'DELETE' })
     setWorkouts(prev => {
       const next = { ...prev }
       delete next[date]
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
       return next
     })
   }
