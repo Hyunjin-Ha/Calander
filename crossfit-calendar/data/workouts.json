@@ -1,9 +1,9 @@
 {
   "2026-04-29": {
     "cardio": {
-      "warmup": "sdf",
-      "strength": "sdf",
-      "wod": "sdf",
+      "warmup": "ㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㄹ\nㄴㅇㄹ\n",
+      "strength": "ㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㄹ\nㄴㅇㄹ\n",
+      "wod": "ㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㅇㄹ\nㅁㄴㄹ\nㄴㅇㄹ\n",
       "intention": "sdf"
     },
     "crossfit": {
@@ -11,6 +11,20 @@
       "strength": "sdf",
       "wod": "sdf",
       "intention": "sdf"
+    }
+  },
+  "2026-04-28": {
+    "cardio": {
+      "warmup": "asdf\nasdfasdf\nasdf\nsdf\nsadf\n",
+      "strength": "asdf\nasdfasdf\nasdf\nsdf\nsadf\n",
+      "wod": "asdf\nasdfasdf\nasdf\nsdf\nsadf\n",
+      "intention": "asdf\nasdfasdf\nasdf\nsdf\nsadf\n"
+    },
+    "crossfit": {
+      "warmup": "",
+      "strength": "",
+      "wod": "",
+      "intention": ""
     }
   }
 }
